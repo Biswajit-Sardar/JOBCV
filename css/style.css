@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f4f6f8;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+nav{
+  background-color: rgb(57, 57, 238);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sign-up{
+  background-color: rgb(156, 162, 231);
+  color: white;
+  height: 40px;
+  padding-left: 10px ;
+  padding-right: 10px ;
+  border: 3px solid rgb(156, 162, 231);
+  border-radius: 10px;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  margin: 10px;
+}
+.sign-up:hover{
+  background-color: rgb(255, 255, 255);
+  border:3px solid red;
+  border-radius: 10px;
+  color: black;
+}
+nav h2{
+  color: white;
+  padding-left: 20px;
+  padding-top: 5px;
+  text-align: center;
+  font-size: 40px
+
+}
+
+section h1{
+  
+ /* width: 600px;*/
+ font-size:64px;
+  position: center;
+  text-align: center;
+  justify-content: center;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+section .title{
+  font-size: 24px;
+  padding-top:10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  color: #0e16ff;
+
+}
+
+.btn-group{
+  justify-content: center;
+  display: flex;
+  
+}
+.next-btn{
+  background-color: rgb(57, 57, 238);
+  margin: 10px;
+  height: 50px;
+  width: 180px;
+  justify-content: center;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+}
+.next-btn:hover{
+  background-color: rgb(156, 162, 231);
+  border: #0e16ff 2px solid;
+}
+.cv{
+  width: 100%;
+  overflow: hidden;
+}
+.CV-content{
+  display: flex;
+  width: max-content;
+  overflow: hidden;
+  justify-content: center;
+  overflow-x: auto;
+  animation: scroll 30s linear infinite;
+}
+.CV-content img{
+  width: 100%;
+  margin: 10px;
+  flex-shrink: 0;
+}
+
+.CV-content img{
+  width: 160px;
+  height: auto;
+  margin: 5px;
+  flex-shrink: 0;
+
+
+}
+@keyframes scroll {
+  from{transform: translateX(0);}
+  to {transform:translateX(-50%);}
+}
+
+
+.CV-content-2{
+  display: flex;
+  width: max-content;
+  overflow: hidden;
+  justify-content: center;
+  overflow-x: auto;
+  animation: scrolls 30s linear infinite;
+  
+}
+.CV-content-2 img{
+  width: 100%;
+  margin: 10px;
+  flex-shrink: 0;
+}
+
+.CV-content-2 img{
+  width: 160px;
+  height: auto;
+  margin: 5px;
+  flex-shrink: 0;
+
+
+}
+@keyframes scrolls {
+  from{transform: translateX(-50%);}
+  to {transform:translateX(0);}
+}
+
+

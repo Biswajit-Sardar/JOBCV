@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Medikaze — Code-only Health Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1720; --card:#0b1520; --muted:#97a6b2; --accent:#25d0a5; --accent-2:#7be0ff;
+  --glass: rgba(255,255,255,0.04);
+  --radius:14px; --shadow: 0 12px 30px rgba(2,8,12,.6);
+  --glass-2: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#081018,#0f1720);color:#e6f7f2;-webkit-font-smoothing:antialiased}
+.container{width:min(1180px,94%);margin:0 auto;padding:28px 0}
+.header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#12c3a2);display:grid;place-items:center;font-weight:900;color:#042}
+.nav{display:flex;gap:14px;align-items:center}
+.nav a{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600}
+.nav a:hover{color:#fff;background:rgba(255,255,255,0.03)}
+.cta{background:var(--accent);color:#022;padding:10px 14px;border-radius:999px;font-weight:800;box-shadow:0 10px 30px rgba(37,208,165,.12)}
+
+/* Layout */
+.hero{display:grid;grid-template-columns:1fr 520px;gap:28px;align-items:center;margin-top:20px}
+.head{padding:14px}
+.h-eyebrow{display:inline-block;background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:999px;color:var(--accent);font-weight:700}
+.h-title{font-size:clamp(26px,4.4vw,44px);margin:12px 0;color:#eafef7}
+.h-desc{color:var(--muted);max-width:58ch}
+
+/* right: visual canvas built with SVG & CSS */
+.canvas{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:18px;padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 20px 60px rgba(2,8,12,.6)}
+.canvas .viewport{height:420px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(180deg,#081220,#0c1a26);display:grid;place-items:center}
+.panel{position:absolute;inset:18px;border-radius:12px;padding:18px;background:linear-gradient(180deg,rgba(255,255,255,0.02), transparent);display:flex;flex-direction:column;gap:12px}
+.panel .title{font-weight:800;font-size:1.05rem}
+.panel .sub{color:var(--muted);font-size:.95rem}
+
+/* stylized ui cards inside canvas */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+.card{background:var(--glass-2);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.card .c-title{font-weight:700;color:#dff7ee}
+.card .c-note{color:var(--muted);font-size:.9rem}
+
+/* timeline */
+.timeline{display:flex;gap:12px;margin-top:18px}
+.step{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;display:flex;gap:10px;align-items:center;transition:transform .22s,box-shadow .22s}
+.step:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(2,8,12,.6)}
+.step.active{background:linear-gradient(90deg,var(--accent),#15c9a1);color:#022;box-shadow:0 30px 70px rgba(37,208,165,.12)}
+
+/* step illustration: CSS shapes + SVG */
+.illustration{width:100%;height:100%;display:grid;place-items:center}
+.svg-card{width:86%;height:82%;border-radius:10px;padding:12px;background:linear-gradient(180deg,#06121a,#08202a);border:1px solid rgba(255,255,255,0.03);box-shadow:inset 0 2px 6px rgba(255,255,255,0.02)}
+
+/* gallery & carousel */
+.gallery{margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.frame{background:linear-gradient(180deg,#06121a,#081723);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 16px 40px rgba(2,8,12,.5);cursor:pointer;transition:transform .25s}
+.frame:hover{transform:translateY(-8px)}
+.frame .f-title{font-weight:800}
+
+/* CTA band */
+.cta-band{margin-top:28px;background:linear-gradient(90deg, rgba(37,208,165,0.06), rgba(123,224,255,0.03));border-radius:14px;padding:18px;display:flex;justify-content:space-between;align-items:center}
+
+/* modal */
+#modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,8,12,.6);z-index:999}
+.modal-card{width:min(1000px,96%);border-radius:12px;padding:18px;background:linear-gradient(180deg,#041017,#07222a);border:1px solid rgba(255,255,255,0.03);box-shadow:0 40px 100px rgba(2,8,12,.7)}
+.modal-card h3{margin-bottom:8px}
+
+/* small responsive */
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr}
+  .gallery{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:560px){
+  .gallery{grid-template-columns:1fr}
+  .nav{display:none}
+}
+
+/* subtle fades */
+.fade{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.in{opacity:1;transform:none}
+
+/* micro animation for svg elements */
+.pulse{animation:pulse 2.2s infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.04);opacity:.9}100%{transform:scale(1);opacity:1}}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand"><div class="logo">M</div><div>
+        <div style="font-weight:800">Medikaze</div><div style="font-size:.85rem;color:var(--muted)">Smart Care Prototype</div>
+      </div></div>
+      <nav class="nav">
+        <a href="#how">How it works</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#modules">Modules</a>
+        <a class="cta" id="bookDemo">Request Demo</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="head">
+        <div class="h-eyebrow">Telehealth • Remote Monitoring • AI</div>
+        <h1 class="h-title">Health workflows — code-only, interactive prototype</h1>
+        <p class="h-desc">এই প্রোটোটাইপে প্রতিটি স্টেপ pure code দিয়ে বানানো — কোনো বাইরের ছবি না ব্যবহার করে SVG/CSS-ভিত্তিক ভিজ্যুয়াল ও কোটেন্ট। নিচে স্টেপ-বাই-স্টেপ ফ্লো দেখো।</p>
+
+        <div style="margin-top:18px" class="timeline" id="timeline">
+          <div class="step active" data-step="0"><div style="width:36px;height:36;border-radius:8px;background:linear-gradient(90deg,var(--accent),#12c3a2);display:grid;place-items:center;font-weight:800;color:#022">1</div><div><strong>Onboard</strong><div style="color:var(--muted)">Registration & vitals</div></div></div>
+          <div class="step" data-step="1"><div style="width:36px;height:36;border-radius:8px;background:rgba(255,255,255,0.02);display:grid;place-items:center;font-weight:800;color:var(--muted)">2</div><div><strong>Monitor</strong><div style="color:var(--muted)">Wearables</div></div></div>
+          <div class="step" data-step="2"><div style="width:36px;height:36;border-radius:8px;background:rgba(255,255,255,0.02);display:grid;place-items:center;font-weight:800;color:var(--muted)">3</div><div><strong>AI</strong><div style="color:var(--muted)">Triage</div></div></div>
+          <div class="step" data-step="3"><div style="width:36px;height:36;border-radius:8px;background:rgba(255,255,255,0.02);display:grid;place-items:center;font-weight:800;color:var(--muted)">4</div><div><strong>Consult</strong><div style="color:var(--muted)">Clinician</div></div></div>
+        </div>
+
+        <div style="margin-top:16px;display:flex;gap:12px">
+          <button id="prev" class="cta" style="background:transparent;color:var(--accent);border:1px solid rgba(37,208,165,.08)">Prev</button>
+          <button id="next" class="cta">Next</button>
+          <button id="auto" class="cta" style="background:linear-gradient(90deg,var(--accent-2),#15c9a1);color:#022">Auto Play</button>
+        </div>
+      </div>
+
+      <!-- VISUAL CANVAS: code-only UI -->
+      <div class="canvas">
+        <div class="viewport" id="viewport">
+          <div class="panel" id="panel">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div class="title" id="panelTitle">1 — Patient Onboarding</div>
+                <div class="sub" id="panelSub">রেজিস্ট্রেশন, বেসলাইন ভিটালস, দ্রুত টিউটোরিয়াল।</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:center">
+                <div style="text-align:right">
+                  <div style="font-weight:800;font-size:1rem" id="kpiA">98%</div>
+                  <div style="color:var(--muted);font-size:.85rem">Engagement</div>
+                </div>
+                <div style="width:48px;height:48px;border-radius:10px;background:rgba(255,255,255,0.02);display:grid;place-items:center">
+                  <!-- small svg icon -->
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2v20" stroke="#8ef3d9" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="7" r="3" stroke="#8ef3d9" stroke-width="1.6" fill="rgba(142,243,217,0.05)"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="cards" id="cards">
+              <div class="card">
+                <div class="c-title">Quick Form</div>
+                <div class="c-note">Auto-fill from national ID, 3-step</div>
+              </div>
+              <div class="card">
+                <div class="c-title">Vitals</div>
+                <div class="c-note">BP, HR, SpO₂ captured</div>
+              </div>
+              <div class="card">
+                <div class="c-title">Consent</div>
+                <div class="c-note">Digital consent & instructions</div>
+              </div>
+            </div>
+
+            <div style="margin-top:auto;display:flex;gap:12px;align-items:center;justify-content:space-between">
+              <div style="color:var(--muted);font-size:.9rem">Demo preview — code-only UI</div>
+              <div style="display:flex;gap:10px">
+                <button class="cta" id="openModal" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--accent)">Open Full View</button>
+                <button class="cta" id="actionPrimary">Start Onboard</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- stylized illustration behind panel (pure SVG shapes) -->
+          <div style="position:absolute;right:22px;top:32px;opacity:.08">
+            <svg width="240" height="240" viewBox="0 0 200 200">
+              <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#12c3a2"/><stop offset="1" stop-color="#7be0ff"/></linearGradient></defs>
+              <circle cx="60" cy="60" r="50" fill="url(#g1)"></circle>
+              <rect x="100" y="40" width="80" height="120" rx="16" fill="#0b2230"></rect>
+            </svg>
+          </div>
+
+        </div>
+
+        <div style="margin-top:12px" class="cards">
+          <div class="card pulse"><div class="c-title">Teletriage</div><div class="c-note">24/7 virtual triage</div></div>
+          <div class="card"><div class="c-title">Analytics</div><div class="c-note">Real-time risk scoring</div></div>
+          <div class="card"><div class="c-title">EHR Sync</div><div class="c-note">FHIR & HL7 compatible</div></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- gallery -->
+    <section id="gallery">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 style="margin:0">Flow Frames</h2>
+        <div style="color:var(--muted)">Click any frame to open full modal view</div>
+      </div>
+
+      <div class="gallery" style="margin-top:12px">
+        <div class="frame fade" data-step="0"><div class="f-title">Onboarding</div><div style="color:var(--muted);margin-top:6px">Forms, vitals, consent</div></div>
+        <div class="frame fade" data-step="1"><div class="f-title">Remote Monitor</div><div style="color:var(--muted);margin-top:6px">Wearables & alerts</div></div>
+        <div class="frame fade" data-step="2"><div class="f-title">AI Triage</div><div style="color:var(--muted);margin-top:6px">Prioritization</div></div>
+      </div>
+    </section>
+
+    <!-- CTA band -->
+    <div class="cta-band">
+      <div>
+        <div style="font-weight:800">চাইলে আমি এই কোড থেকে PNG এক্সপোর্ট করে দেব</div>
+        <div style="color:var(--muted)">অথবা তুমি চাইলে এই UI-কে Figma এ রপ্তানি করার জন্য assets আলাদা করে দেব</div>
+      </div>
+      <div><button id="exportBtn" class="cta" style="background:var(--accent)">Export Frame</button></div>
+    </div>
+
+    <footer style="margin-top:28px;color:var(--muted);display:flex;justify-content:space-between;align-items:center">
+      <div>Medikaze — Code-only prototype</div>
+      <div>© 2025</div>
+    </footer>
+  </div>
+
+  <!-- modal -->
+  <div id="modal"><div class="modal-card"><div style="display:flex;justify-content:space-between;align-items:center"><h3 id="modalTitle">Full View</h3><button id="closeModal" style="background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer">✕</button></div><div style="margin-top:12px;color:var(--muted)" id="modalBody">This is a code-only fullscreen preview of the selected step. Designed with SVG/CSS shapes and stylized UI components so no external photos required.</div></div></div>
+
+<script>
+/* Core interactions */
+// elements
+const steps = document.querySelectorAll('.step');
+const panelTitle = document.getElementById('panelTitle');
+const panelSub = document.getElementById('panelSub');
+const kpiA = document.getElementById('kpiA');
+const cards = document.getElementById('cards');
+const openModal = document.getElementById('openModal');
+const modal = document.getElementById('modal');
+const closeModal = document.getElementById('closeModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+const auto = document.getElementById('auto');
+const exportBtn = document.getElementById('exportBtn');
+let autoplay = null;
+
+// frames content (pure text + CSS shapes)
+const frames = [
+  {title:'1 — Patient Onboarding', sub:'রেজিস্ট্রেশন, বেসলাইন ভিটালস, দ্রুত টিউটোরিয়াল।', kpi:'98%', cards:[
+    ['Quick Form','Auto-fill & 3-step'],
+    ['Vitals','BP, HR, SpO₂'],
+    ['Consent','Digital consent & tutorial']
+  ]},
+  {title:'2 — Remote Monitoring', sub:'Wearables & continuous telemetry; caregivers alerted.', kpi:'92%', cards:[
+    ['Wearable','Continuous SpO₂ & HR'],
+    ['Alerts','Threshold-based'],
+    ['Family','Shared dashboards']
+  ]},
+  {title:'3 — AI Triage', sub:'Imaging + vitals → priority & explainable alerts.', kpi:'93%', cards:[
+    ['Radiology','Priority queue'],
+    ['Deterioration','Early-warning'],
+    ['Explainability','Clinician notes']
+  ]},
+  {title:'4 — Clinician Consult', sub:'Video consult, prescriptions & follow-up plan.', kpi:'88%', cards:[
+    ['Video','HD, secure'],
+    ['E-Rx','One-click Rx'],
+    ['Plan','Follow-up schedule']
+  ]}
+];
+
+let idx = 0;
+function applyFrame(i){
+  idx = i;
+  // clamp
+  if(i < 0) i = 0;
+  if(i >= frames.length) i = frames.length - 1;
+  // UI updates
+  steps.forEach(s=> s.classList.toggle('active', parseInt(s.dataset.step)===i));
+  panelTitle.textContent = frames[i].title;
+  panelSub.textContent = frames[i].sub;
+  kpiA.textContent = frames[i].kpi;
+  // rebuild cards
+  cards.innerHTML = '';
+  frames[i].cards.forEach(c=>{
+    const d = document.createElement('div'); d.className='card';
+    d.innerHTML = `<div class="c-title">${c[0]}</div><div class="c-note">${c[1]}</div>`;
+    cards.appendChild(d);
+  });
+  // modal preview
+  modalTitle.textContent = frames[i].title;
+  modalBody.textContent = frames[i].sub + ' — (preview)';
+}
+// attach step clicks
+steps.forEach(s=> s.addEventListener('click', ()=> applyFrame(parseInt(s.dataset.step))));
+// prev/next buttons
+prev.addEventListener('click', ()=> applyFrame(Math.max(0, idx-1)));
+next.addEventListener('click', ()=> applyFrame(Math.min(frames.length-1, idx+1)));
+// auto-play
+auto.addEventListener('click', ()=>{
+  if(autoplay){ clearInterval(autoplay); autoplay=null; auto.textContent='Auto Play'; return; }
+  let i = idx;
+  autoplay = setInterval(()=>{ i = (i+1) % frames.length; applyFrame(i); }, 900);
+  auto.textContent='Stop';
+});
+// open modal
+openModal.addEventListener('click', ()=> modal.style.display='flex');
+closeModal.addEventListener('click', ()=> modal.style.display='none');
+modal.addEventListener('click', (e)=> { if(e.target===modal) modal.style.display='none'; });
+
+// gallery frame click -> jump
+document.querySelectorAll('.frame').forEach(f=> f.addEventListener('click', ()=> {
+  const s = parseInt(f.dataset.step) || 0; applyFrame(s);
+  // scroll to top of container
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+// reveal on scroll: simple
+const faders = document.querySelectorAll('.fade');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if(en.isIntersecting) en.target.classList.add('in'); });
+},{threshold:0.2});
+faders.forEach(f=> io.observe(f));
+
+// export frame: render panel area to PNG using DOM-to-image approach (simple fallback using HTML2Canvas not available).
+// We'll provide a minimal fallback: open a printable window with the panel's HTML so user can print/save as PDF/PNG.
+exportBtn.addEventListener('click', ()=>{
+  const panelHTML = document.getElementById('panel').outerHTML;
+  const w = window.open('', '_blank', 'toolbar=0,location=0,menubar=0');
+  w.document.write('<html><head><title>Export Frame</title><style>body{background:#071018;color:#fff;font-family:Inter,Arial;padding:20px} .wrap{max-width:900px;margin:0 auto} .panel{background:#031018;padding:20px;border-radius:12px}</style></head><body><div class="wrap"><div class="panel">'+panelHTML+'</div><p style="color:#97a6b2">Use browser Print → Save as PDF / Save as Image</p></div></body></html>');
+  w.document.close();
+});
+
+// keyboard navigation arrows
+window.addEventListener('keydown', e=> {
+  if(e.key === 'ArrowRight') applyFrame(Math.min(frames.length-1, idx+1));
+  if(e.key === 'ArrowLeft') applyFrame(Math.max(0, idx-1));
+});
+
+// init
+applyFrame(0);
+
+</script>
+</body>
+</html>
