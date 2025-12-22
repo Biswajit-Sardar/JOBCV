@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - JOBCV</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
+</head>
+<body>
+
+  <nav>
+    <h2>JOBCV</h2>
+    <div class="nav-buttons">
+      <button class="btn-signup btn primary">Sign up</button>
+      <button class="btn-login btn primary hidden">Sign in</button>
+      <button class="btn-logout btn primary hidden">Logout</button>
+    </div>
+  </nav>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <input type="email" class="login-email" placeholder="Email">
+    <input type="password" class="login-password" placeholder="Password">
+    <button class="btn-login-email">Login with Email</button>
+    <button class="btn-login-google">Login with Google</button>
+    <button class="btn-login-facebook">Login with Facebook</button>
+    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+  </div>
+
+  <!-- Include your auth.js -->
+  <script src="js/auth.js"></script>
+
+</body>
+</html>
