@@ -11,6 +11,7 @@ body {
   overflow-x: hidden;
 }
 
+
 nav{
   background-color: rgb(57, 57, 238);
   height: 60px;
@@ -22,14 +23,15 @@ nav{
   background-color: rgb(156, 162, 231);
   color: white;
   height: 40px;
-  padding-left: 10px ;
-  padding-right: 10px ;
   border: 3px solid rgb(156, 162, 231);
   border-radius: 10px;
   color: rgb(255, 255, 255);
   font-size: 20px;
   margin: 10px;
-}
+  justify-content: center;
+  padding: 1px 10px;
+
+} 
 .sign-up:hover{
   background-color: rgb(255, 255, 255);
   border:3px solid red;
@@ -94,7 +96,7 @@ section .title{
   overflow: hidden;
   justify-content: center;
   overflow-x: auto;
-  animation: scroll 30s linear infinite;
+  animation: scroll 40s linear infinite;
 }
 .CV-content img{
   width: 100%;
@@ -122,7 +124,7 @@ section .title{
   overflow: hidden;
   justify-content: center;
   overflow-x: auto;
-  animation: scrolls 30s linear infinite;
+  animation: scrolls 40s linear infinite;
   
 }
 .CV-content-2 img{
@@ -143,5 +145,131 @@ section .title{
   from{transform: translateX(-50%);}
   to {transform:translateX(0);}
 }
+.scroll1{
+  display: flex;
+}
+
+.Viwe-more{
+  text-align: right;
+  padding-right:20px ;
+}
+.left-arrow1{
+  font-size: 20px;
+  margin-top:-360px; 
+  position: absolute;
+  /*text-shadow: #5a1f1f 0px 0px 10px;*/
+  background-color: #dadbf749;
+  box-shadow: #dadbf749 0px 0px 10px;
+  padding: 2px 20px;
+
+}
+.right-arrow1{
+  text-align: right;
+  font-size: 20px;
+  margin-top:-360px;
+  margin-right: 0px;
+  margin-left: auto;
+  position: absolute;
+  /*text-shadow: #5a1f1f 0px 0px 10px;*/
+  background-color: #dadbf749;
+  box-shadow: #dadbf749 0px 0px 10px;
+  padding: 2px 20px;
+
+}
 
 
+
+.scroll1{
+  position: relative; 
+}
+
+.left-arrow1{
+  position: absolute;
+  
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  z-index: 10;
+
+  background-color: #dadbf749;
+  box-shadow: #dadbf749 0px 0px 10px;
+  padding: 5px 10px;
+}
+
+.right-arrow1{
+  position: absolute;
+  
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  z-index: 10;
+
+  background-color: #dadbf749;
+  box-shadow: #dadbf749 0px 0px 10px;
+  padding: 5px 10px;
+}
+
+
+
+.scroll2{
+  display: flex;
+}
+
+.Viwe-more{
+  text-align: right;
+  padding-right:20px ;
+}
+.left-arrow2{
+  font-size: 20px;
+  margin-top:-100px; 
+  position: absolute;
+  /*text-shadow: #5a1f1f 0px 0px 10px;*/
+  background-color: #dadbf749;
+  box-shadow: #dadbf749 0px 0px 10px;
+  padding: 2px 20px;
+
+}
+.right-arrow2{
+  text-align: right;
+  font-size: 20px;
+  margin-top:-100px;
+  margin-right: 0px;
+  margin-left: auto;
+  position: absolute;
+  /*text-shadow: #5a1f1f 0px 0px 10px;*/
+  background-color: #dadbf749;
+  box-shadow: #dadbf749 0px 0px 10px;
+  padding: 2px 20px;
+
+}
+
+
+
+.scroll2{
+  position: relative; 
+}
+
+.left-arrow2{
+  position: absolute;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  z-index: 10;
+
+  background-color: #dadbf749;
+  box-shadow: #dadbf749 0px 0px 10px;
+  padding: 5px 10px;
+}
+
+.right-arrow2{
+  position: absolute;
+  
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  z-index: 10;
+
+  background-color: #dadbf749;
+  box-shadow: #dadbf749 0px 0px 10px;
+  padding: 5px 10px;
+}
