@@ -311,138 +311,15 @@ section .title{
 .hidden {
   display: none;
 }
-
-
-
-
-/* 🔹 General */
-body {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f4f6f8;
-  color: #333;
+.design-cv{
+ justify-content: center;
+ background-color: yellowgreen;
+ padding-left: 10px;
 }
 
-/* 🔹 Navbar */
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  background-color: #1e90ff;
-  color: white;
-}
 
-nav h2 {
-  margin: 0;
+.design-cv img{
+  width:auto;
+  height: 220px;
+  padding: 10px;
 }
-
-.nav-buttons button {
-  margin-left: 10px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  background: white;
-  color: #1e90ff;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.nav-buttons button:hover {
-  background: #f0f0f0;
-}
-
-/* 🔹 Hidden class */
-.hidden {
-  display: none !important;
-}
-
-/* 🔹 Login container */
-.login-container {
-  max-width: 400px;
-  margin: 60px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.1);
-}
-
-.login-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #1e90ff;
-}
-
-/* 🔹 Inputs */
-.login-container input {
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-  outline: none;
-}
-
-.login-container input:focus {
-  border-color: #1e90ff;
-}
-
-/* 🔹 Buttons */
-.login-container button {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.btn-login-email {
-  background: #1e90ff;
-  color: white;
-}
-
-.btn-login-email:hover {
-  background: #0077cc;
-}
-
-.btn-login-google {
-  background: #dd4b39;
-  color: white;
-}
-
-.btn-login-google:hover {
-  background: #c23321;
-}
-
-.btn-login-facebook {
-  background: #3b5998;
-  color: white;
-}
-
-.btn-login-facebook:hover {
-  background: #2d4373;
-}
-
-/* 🔹 Signup link */
-.login-container p {
-  text-align: center;
-  font-size: 14px;
-}
-
-.login-container a {
-  color: #1e90ff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.login-container a:hover {
-  text-decoration: underline;
-}
-
